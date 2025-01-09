@@ -4,8 +4,19 @@ namespace MyCoapClient
 {
     class Program
     {
+        private static string serverAddress = "localhost"; // Indirizzo di default
+
         static void Main(string[] args)
         {
+            Console.Write("Inserisci l'indirizzo IP del server CoAP (premi Enter per usare localhost): ");
+            var input = Console.ReadLine();
+            if (!string.IsNullOrEmpty(input))
+            {
+                serverAddress = input;
+            }
+
+            Console.WriteLine($"Connesso al server: coap://{serverAddress}:5683");
+
             while (true)
             {
                 Console.WriteLine("\nCoAP Client - Seleziona un'operazione:");
@@ -16,6 +27,7 @@ namespace MyCoapClient
                 Console.WriteLine("5. PUT /sensor");
                 Console.WriteLine("6. DELETE /sensor");
                 Console.WriteLine("7. Monitor /sensor (polling)");
+                Console.WriteLine("8. Cambia indirizzo server");
                 Console.WriteLine("0. Esci");
 
                 var choice = Console.ReadLine();
@@ -43,6 +55,9 @@ namespace MyCoapClient
                     case "7":
                         MonitorSensor();
                         break;
+                    case "8":
+                        ChangeServerAddress();
+                        break;
                     case "0":
                         return;
                     default:
@@ -52,10 +67,21 @@ namespace MyCoapClient
             }
         }
 
+        static void ChangeServerAddress()
+        {
+            Console.Write("Inserisci il nuovo indirizzo IP del server: ");
+            var input = Console.ReadLine();
+            if (!string.IsNullOrEmpty(input))
+            {
+                serverAddress = input;
+                Console.WriteLine($"Indirizzo server cambiato a: coap://{serverAddress}:5683");
+            }
+        }
+
         static void DiscoverResources()
         {
             var request = new Request(Method.GET);
-            request.URI = new Uri("coap://localhost/.well-known/core");
+            request.URI = new Uri($"coap://{serverAddress}/.well-known/core");
             request.Send();
 
             var response = request.WaitForResponse();
@@ -72,7 +98,7 @@ namespace MyCoapClient
         static void GetHello()
         {
             var request = new Request(Method.GET);
-            request.URI = new Uri("coap://localhost/hello");
+            request.URI = new Uri($"coap://{serverAddress}/hello");
             request.Send();
 
             var response = request.WaitForResponse();
@@ -89,7 +115,7 @@ namespace MyCoapClient
         static void GetSensor()
         {
             var request = new Request(Method.GET);
-            request.URI = new Uri("coap://localhost/sensor");
+            request.URI = new Uri($"coap://{serverAddress}/sensor");
             request.Send();
 
             var response = request.WaitForResponse();
@@ -111,7 +137,7 @@ namespace MyCoapClient
             if (!string.IsNullOrEmpty(value))
             {
                 var request = new Request(Method.POST);
-                request.URI = new Uri("coap://localhost/sensor");
+                request.URI = new Uri($"coap://{serverAddress}/sensor");
                 request.SetPayload(value);
                 request.Send();
 
@@ -139,7 +165,7 @@ namespace MyCoapClient
             if (!string.IsNullOrEmpty(value))
             {
                 var request = new Request(Method.PUT);
-                request.URI = new Uri("coap://localhost/sensor");
+                request.URI = new Uri($"coap://{serverAddress}/sensor");
                 request.SetPayload(value);
                 request.Send();
 
@@ -162,7 +188,7 @@ namespace MyCoapClient
         static void DeleteSensor()
         {
             var request = new Request(Method.DELETE);
-            request.URI = new Uri("coap://localhost/sensor");
+            request.URI = new Uri($"coap://{serverAddress}/sensor");
             request.Send();
 
             var response = request.WaitForResponse();
@@ -187,7 +213,7 @@ namespace MyCoapClient
                 while (monitoring)
                 {
                     var request = new Request(Method.GET);
-                    request.URI = new Uri("coap://localhost/sensor");
+                    request.URI = new Uri($"coap://{serverAddress}/sensor");
                     request.Send();
 
                     var response = request.WaitForResponse();

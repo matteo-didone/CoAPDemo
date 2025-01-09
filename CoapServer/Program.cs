@@ -1,6 +1,7 @@
 ﻿using CoAP;
 using CoAP.Server;
 using CoAP.Server.Resources;
+using System.Net;
 
 namespace MyCoapServer
 {
@@ -8,16 +9,30 @@ namespace MyCoapServer
     {
         static void Main(string[] args)
         {
-            var server = new CoapServer();
+            // Crea il server specificando l'indirizzo IP su cui mettersi in ascolto
+            var server = new CoapServer(new CoapConfig()
+            {
+                BindToAny = true // Ascolta su tutti gli indirizzi IP
+            });
 
             // Aggiunta delle risorse
-            server.Add(new HelloResource());         // Risorsa base
-            server.Add(new SensorResource());        // Risorsa sensore
-            server.Add(new WellKnownCoreResource()); // Resource discovery
+            server.Add(new HelloResource());
+            server.Add(new SensorResource());
+            server.Add(new WellKnownCoreResource());
 
             server.Start();
+
+            // Mostra gli indirizzi IP su cui il server è in ascolto
             Console.WriteLine("Server CoAP avviato sulla porta 5683");
-            Console.WriteLine("Premi un tasto per terminare...");
+            Console.WriteLine("Indirizzi IP disponibili:");
+            var addresses = Dns.GetHostEntry(Dns.GetHostName()).AddressList
+                .Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+            foreach (var address in addresses)
+            {
+                Console.WriteLine($"coap://{address}:5683");
+            }
+
+            Console.WriteLine("\nPremi un tasto per terminare...");
             Console.ReadKey();
             server.Dispose();
         }
