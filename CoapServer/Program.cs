@@ -9,11 +9,8 @@ namespace MyCoapServer
     {
         static void Main(string[] args)
         {
-            // Crea il server specificando l'indirizzo IP su cui mettersi in ascolto
-            var server = new CoapServer(new CoapConfig()
-            {
-                BindToAny = true // Ascolta su tutti gli indirizzi IP
-            });
+            // Crea il server sulla porta di default CoAP (5683)
+            var server = new CoapServer();
 
             // Aggiunta delle risorse
             server.Add(new HelloResource());

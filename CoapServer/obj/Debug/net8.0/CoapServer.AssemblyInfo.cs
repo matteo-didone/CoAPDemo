@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoapServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03472d7b0dbf2561124d07b51b283c6745136007")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e27b2d2db16d92c13afcf897078739c00d51ec2")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoapServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoapServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
