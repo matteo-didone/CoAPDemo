@@ -31,3 +31,4 @@
 /Users/matteodidone/VS Code Projects/CoAPDemo/CoapClient/obj/Debug/net8.0/CoapClient.pdb
 /Users/matteodidone/VS Code Projects/CoAPDemo/CoapClient/obj/Debug/net8.0/CoapClient.genruntimeconfig.cache
 /Users/matteodidone/VS Code Projects/CoAPDemo/CoapClient/obj/Debug/net8.0/ref/CoapClient.dll
+/Users/matteodidone/VS Code Projects/CoAPDemo/CoapClient/obj/Debug/net8.0/CoapClient.sourcelink.json
